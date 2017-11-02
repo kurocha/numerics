@@ -12,7 +12,7 @@ platforms:
   :commit: 9b3dc9a1b13108f933146cda6c12a994c5c954a0
   :branch: master
 unit-test:
-  :commit: 2594d021a52b06ba76fba15dbbe516eda8486321
+  :commit: 5884aba86719fe44428c7e6853979ed4be581399
   :branch: master
 generate-cpp-class:
   :commit: a7219c511be8af5228c4daf575508c5667108998
@@ -36,5 +36,5 @@ build-files:
   :commit: 00c6cef5ef06157b939ee0775f765a45af763ac1
   :branch: master
 streams:
-  :commit: 57b1176ece6e02f37951318a62bf3203c1b4b0c7
+  :commit: cd6fd9411e62156dd5dd0cf63dca4af62b297961
   :branch: master

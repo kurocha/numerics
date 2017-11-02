@@ -49,6 +49,8 @@ define_target 'numerics-test' do |target|
 		run tests: 'Numerics', source_files: test_root.glob('Numerics/**/*.cpp'), arguments: arguments
 	end
 	
+	target.depends 'Language/C++14', private: true
+	
 	target.depends 'Library/UnitTest'
 	target.depends 'Library/Numerics'
 	
