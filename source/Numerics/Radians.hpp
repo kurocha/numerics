@@ -15,8 +15,8 @@
 namespace Numerics
 {
 	/// Radians to degrees multiplier
-	constexpr double R2D = (180.0 / M_PI);
-	constexpr double D2R = (M_PI / 180.0);
+	constexpr long double R2D = (180.0 / M_PI);
+	constexpr long double D2R = (M_PI / 180.0);
 	
 	template <typename NumericT>
 	struct Number;
@@ -141,12 +141,22 @@ namespace Numerics
 		return Radians<FloatT>{std::asin(value)};
 	}
 
-	constexpr Radians<double> operator"" _rad(long double r) { return Radians<double>(r); }
-	constexpr Radians<double> operator"" _deg(long double d) { return Radians<double>(d * D2R); }
+	constexpr Radians<double> operator"" _rad(long double r) { return Radians<double>{r}; }
+	constexpr Radians<double> operator"" _deg(long double d) { return Radians<double>{d * D2R}; }
 	
-	constexpr Radians<double> operator"" _rad(unsigned long long r) { return Radians<double>(r); }
-	constexpr Radians<double> operator"" _deg(unsigned long long d) { return Radians<double>(static_cast<double>(d) * D2R); }
+	constexpr Radians<double> operator"" _rad(unsigned long long r) { return Radians<double>{r}; }
+	constexpr Radians<double> operator"" _deg(unsigned long long d) { return Radians<double>{static_cast<long double>(d) * D2R}; }
 	
 	extern template struct Radians<float>;
 	extern template struct Radians<double>;
+	
+	constexpr Radians<double> R0{0};
+	constexpr Radians<double> R10{M_PI_2 / 9.0};
+	constexpr Radians<double> R30{M_PI_2 / 3.0};
+	constexpr Radians<double> R45{M_PI_4};
+	constexpr Radians<double> R60 = R30 * 2.0;
+	constexpr Radians<double> R90{M_PI_2};
+	constexpr Radians<double> R180{M_PI};
+	constexpr Radians<double> R270 = R90 * 3.0;
+	constexpr Radians<double> R360 = R180 * 2.0;
 }

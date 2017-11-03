@@ -46,7 +46,7 @@ namespace Numerics
 		typedef std::uint64_t UnsignedT;
 		typedef std::int64_t SignedT;
 	};
-
+	
 	/// If the supplied value is a power of two, it is returned, otherwise the next highest power of 2 is calculated and returned. The integral must be
 	// http://acius2.blogspot.com/2007/11/calculating-next-power-of-2.html
 	template <typename IntegralT>

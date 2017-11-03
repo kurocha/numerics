@@ -192,7 +192,7 @@ namespace Numerics
 		}
 
 		/// Return the length of the vector.
-		Number<RealT> length() const
+		auto length() const
 		{
 			return length_squared().square_root();
 		}
@@ -214,6 +214,7 @@ namespace Numerics
 		{
 			auto current_length = length();
 			
+			// Can't normalize zero length vector.
 			if (current_length.equivalent(0)) return *this;
 			
 			return Vector(*this).normalize(current_length, desired_length);
