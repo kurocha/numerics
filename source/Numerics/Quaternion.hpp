@@ -90,8 +90,6 @@ namespace Numerics
 			return copy;
 		}
 
-		using Vector<4, NumericT>::operator*;
-
 		/// Rotate a point:
 		Vector<3, NumericT> operator*(const Vector<3, NumericT> & v) const {
 			auto qvec = this->reduce();
@@ -111,7 +109,8 @@ namespace Numerics
 			return {*this, right};
 		}
 		
-		Quaternion operator*(Quaternion & other) {
+		Quaternion operator*(const Quaternion & other) const noexcept
+		{
 			auto & q1 = *this;
 			auto & q2 = other;
 			

@@ -48,8 +48,8 @@ namespace Numerics
 			}
 		},
 
-		{"Multiplication",
-			[](UnitTest::Examiner & examiner) {
+		{"it can rotate a point",
+			[](auto examiner) {
 				Quaternion<>q = rotate(90_deg, vector(1.0, 0.0, 0.0));
 				Matrix<4,4> m = rotate(90_deg, vector(1.0, 0.0, 0.0));
 
@@ -60,31 +60,29 @@ namespace Numerics
 				r1 = q * si;
 				r2 = m * si;
 
-				examiner << "Represented rotation is same" << std::endl;
 				examiner.expect(r1).to(be_equivalent(r2));
+			}
+		},
 
-				Quaternion<>a(90_deg, Vec3(1, 0, 0).normalize());
-				Quaternion<>b(90_deg, Vec3(0, 1, 0).normalize());
-				Quaternion<>c = a.rotation_to(b);
+		{"it can generate an intermediate rotation",
+			[](UnitTest::Examiner & examiner) {
+				Quaternion<> a(90_deg, Vec3(1, 0, 0));
+				Quaternion<> b(90_deg, Vec3(0, 1, 0));
+				Quaternion<> c = a.rotation_to(b);
 
-				examiner << "Quaternion rotation is correct" << std::endl;
+				examiner.expect(a.conjugate()).to(be_equivalent(Vec4(-0.707107, 0, 0, 0.707107)));
+				
 				examiner.expect(a).to(be_equivalent(Vec4(0.707107, 0, 0, 0.707107)));
-				examiner << "Quaternion rotation is correct" << std::endl;
 				examiner.expect(b).to(be_equivalent(Vec4(0, 0.707107, 0, 0.707107)));
-				examiner << "Quaternion rotation is correct" << std::endl;
 				examiner.expect(c).to(be_equivalent(Vec4(-0.5, 0.5, -0.5, 0.5)));
 
-				examiner << "Quaternion conjugate is correct" << std::endl;
-				examiner.expect(a.conjugate()).to(be_equivalent(Vec4(-0.707107, 0, 0, 0.707107)));
-
-				examiner << "Rotations are equivalent" << std::endl;
 				examiner.expect(a * c).to(be_equivalent(b));
 			}
 		},
 
 		{"Rotation Matrix",
 			[](UnitTest::Examiner & examiner) {
-				Quaternion<>identity(IDENTITY);
+				Quaternion<> identity(IDENTITY);
 				Matrix<4,4> m1 = identity;
 
 				examiner << "X axis is correct" << std::endl;
