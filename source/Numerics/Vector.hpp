@@ -26,7 +26,7 @@ namespace Numerics
 	{
 	public:
 		/// Empty constructor. Value of vector is undefined.
-		Vector() = default;
+		Vector() {}
 
 		Vector(const NumericT & value)
 		{
