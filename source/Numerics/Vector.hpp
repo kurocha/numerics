@@ -143,9 +143,9 @@ namespace Numerics
 			return Vector(*this) |= other;
 		}
 		
-		template <typename OtherT>
-		Vector operator!() const {
-			return fold([](NumericT a){return !a;});
+		Vector operator!() const noexcept
+		{
+			return Vector(*this).fold([](NumericT a){return !a;});
 		}
 		
 		/// Returns a vector with F components, by default one less than the current size.
