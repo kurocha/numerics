@@ -10,6 +10,7 @@
 
 #include "Number.hpp"
 #include "Float.hpp"
+#include "Interpolate.hpp"
 
 #include <type_traits>
 #include <array>
@@ -238,6 +239,130 @@ namespace Numerics
 		Vector reflect(const Vector & normal) const
 		{
 			return (*this) - (normal * (2.0 * this->dot(normal)));
+		}
+		
+		/// Distribute an index into a given space.
+		/// For example, when considering a size vector <tt><10, 15></tt>, we have defined a space which is 10 units wide and 15 units high. Therefore, an index in the range 0 to 9 will be in the first row, and 10 to 19 will be in the second row.
+		/// @sa index
+		Vector distribute(NumericT k) const
+		{
+			Vector r(ZERO);
+			
+			NumericT m = this->product();
+
+			if (m == 0) return ZERO;
+
+			for (std::size_t i = D; i > 0; i -= 1) {
+				m /= (*this)[i-1];
+
+				r[i-1] = number(k / m).truncate();
+
+				k = number(k).modulo(m);
+			}
+
+			//assert(m == 1);
+
+			return r;
+		}
+
+		/// Given a size vector (this) and a coordinate, return an index.
+		/// @sa distribute
+		Number<NumericT> index(const Vector & coord) const
+		{
+			NumericT idx = 0;
+			NumericT m = 1;
+
+			//		x(1) + y(sx) + z(sx*sy)
+			for (std::size_t i = 0; i < D; i += 1) {
+				idx += coord[i] * m;
+				m *= (*this)[i];
+			}
+			
+			return idx;
+		}
+
+		/// Clamp all components of the vector between given values.
+		Vector clamp(const NumericT & min = 0, const NumericT & max = 1) const
+		{
+			Vector result;
+
+			for (std::size_t i = 0; i < D; ++i)
+				result[i] = number((*this)[i]).clamp(min, max);
+
+			return result;
+		}
+		
+		// Raise components of the vector to the given power.
+		Vector raise(const NumericT & power) const
+		{
+			Vector result;
+			
+			for (std::size_t i = 0; i < D; ++i)
+				result[i] = number((*this)[i]).raise(power);
+
+			return result;
+		}
+
+		/// Linearly interpolate from (-1...1) between the smallest and largest components of the individual axes.
+		Vector constrain(const Vector & b, const Vector<D, RealT> & constraints) const
+		{
+			const Vector & a = *this;
+
+			Vector result;
+
+			for (std::size_t i = 0; i < D; i += 1) {
+				NumericT minimum = a[i], maximum = b[i];
+
+				if (minimum > maximum) std::swap(minimum, maximum);
+
+				result[i] = Interpolate::linear(constraints[i], minimum, maximum);
+			}
+
+			return result;
+		}
+
+		/// Linearly interpolate from (-1...1) between the smallest and largest components of the individual axes.
+		Vector constrain(const Vector & b, bool maximum = true) const
+		{
+			const Vector & a = *this;
+
+			Vector result;
+
+			for (std::size_t i = 0; i < D; i += 1) {
+				if (!maximum)
+					result[i] = std::min(a[i], b[i]);
+				else
+					result[i] = std::max(a[i], b[i]);
+			}
+
+			return result;
+		}
+
+		/// Calculate the absolute value of the vector:
+		Vector absolute() const
+		{
+			Vector result;
+
+			for (std::size_t i = 0; i < D; ++i)
+				result[i] = number((*this)[i]).absolute();
+
+			return result;
+		}
+
+		/// Truncate the values of the vector:
+		Vector truncate(bool up = false) const
+		{
+			Vector result;
+
+			for (std::size_t i = 0; i < D; ++i)
+				result[i] = number((*this)[i]).truncate(up);
+
+			return result;
+		}
+
+		Vector fraction() const
+		{
+			return *this - truncate();
 		}
 		
 	private:
