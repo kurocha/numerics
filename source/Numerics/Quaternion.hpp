@@ -49,19 +49,19 @@ namespace Numerics
 		}
 		
 		template <std::size_t N, typename AngleNumericT, typename AxisNumericT>
-		Quaternion(const AngleAxisRotation<N, AngleNumericT, AxisNumericT> & rotation) : Quaternion(rotation.angle, rotation.axis)
+		Quaternion(const Transforms::AngleAxisRotation<N, AngleNumericT, AxisNumericT> & rotation) : Quaternion(rotation.angle, rotation.axis)
 		{
 		}
 
 		template <std::size_t AXIS, typename AngleNumericT>
-		Quaternion(const FixedAxisRotation<AXIS, AngleNumericT> rotation) : Quaternion(rotation.angle, rotation.template axis<3>())
+		Quaternion(const Transforms::FixedAxisRotation<AXIS, AngleNumericT> rotation) : Quaternion(rotation.angle, rotation.template axis<3>())
 		{
 		}
 
 		template <typename A, typename B>
-		Quaternion(const Transforms<A, B> & transforms) : Quaternion(IDENTITY)
+		Quaternion(const Transforms::Sequence<A, B> & sequence) : Quaternion(IDENTITY)
 		{
-			transforms.apply(*this);
+			sequence.apply(*this);
 		}
 
 		/// Calculate the angle of rotation.
@@ -104,7 +104,7 @@ namespace Numerics
 		}
 
 		template <typename RightT>
-		Transforms<Quaternion, RightT> operator<<(const RightT & right) const
+		Transforms::Sequence<Quaternion, RightT> operator<<(const RightT & right) const
 		{
 			return {*this, right};
 		}

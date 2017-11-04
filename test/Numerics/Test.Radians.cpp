@@ -13,30 +13,28 @@
 
 namespace Numerics
 {
+	using namespace UnitTest::Expectations;
+	
 	UnitTest::Suite RadiansTestSuite {
 		"Numerics::Radians",
 		
-		{"Multiplication",
+		{"it can by multiplied by a constant",
 			[](UnitTest::Examiner & examiner) {
-				examiner << "45_deg is correct" << std::endl;
-				examiner.check(equivalent(45_deg * 2.0, 90_deg));
-				examiner << "90_deg is correct" << std::endl;
-				examiner.check(equivalent(90_deg * 2.0, 180_deg));
-				examiner << "360_deg is correct" << std::endl;
-				examiner.check(equivalent(180_deg * 2.0, 360_deg));
+				examiner.expect(45_deg * 2.0).to(be_equivalent(90_deg));
+				examiner.expect(90_deg * 2.0).to(be_equivalent(180_deg));
+				examiner.expect(180_deg * 2.0).to(be_equivalent(360_deg));
 			}
 		},
 		
-		{"Constants",
+		{"it matches mathematical constants",
 			[](UnitTest::Examiner & examiner) {
 				examiner.check_equal(M_PI_2, (90_deg).value);
 				examiner.check_equal((90_deg).sin(), 1.0);
 			}
 		},
 		
-		{"Division",
+		{"it can be divided by a constant",
 			[](UnitTest::Examiner & examiner) {
-				examiner << "Angle was divided." << std::endl;
 				examiner.check((90_deg / 2).equivalent(45_deg));
 			}
 		},

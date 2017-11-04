@@ -17,6 +17,7 @@
 namespace Numerics
 {
 	using namespace UnitTest::Expectations;
+	using namespace Numerics::Transforms;
 	
 	UnitTest::Suite QuaternionTestSuite {
 		"Numerics::Quaternion",

@@ -90,7 +90,9 @@ namespace Numerics
 	struct Number
 	{
 		static_assert(std::is_arithmetic<NumericT>::value, "Number can only work with arithmetic data-types!");
-		typedef typename RealTypeTraits<NumericT>::RealT RealT;
+		using RealT = typename RealTypeTraits<NumericT>::RealT;
+
+		NumericT value;
 
 		template <typename ValueT>
 		static ValueT value_of(const ValueT & value)
@@ -103,8 +105,6 @@ namespace Numerics
 		{
 			return number.value;
 		}
-
-		NumericT value;
 
 		constexpr Number (const NumericT & value_) : value(value_)
 		{

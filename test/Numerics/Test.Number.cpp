@@ -7,9 +7,9 @@
 namespace Numerics
 {
 	UnitTest::Suite NumberTestSuite {
-		"Euclid::Numerics::Numbers",
+		"Numerics::Numbers",
 
-		{"Arithmetic",
+		{"it can do basic arithmetic correctly",
 			[](UnitTest::Examiner & examiner) {
 				auto n = number(10.0);
 
@@ -23,8 +23,22 @@ namespace Numerics
 				examiner.check_equal(n % 3, 1.0);
 			}
 		},
-
-		{"Clamping",
+		
+		{"it can construct from IDENTITY",
+			[](UnitTest::Examiner & examiner) {
+				float a = IDENTITY;
+				examiner.check_equal(a, 1.0f);
+			}
+		},
+		
+		{"it can construct from ZERO",
+			[](UnitTest::Examiner & examiner) {
+				float a = ZERO;
+				examiner.check_equal(a, 0.0f);
+			}
+		},
+		
+		{"it can clamp numbers",
 			[](UnitTest::Examiner & examiner) {
 				// Using default 0...1 range:
 				examiner.check_equal(number(-10).clamp(), 0);
@@ -38,7 +52,7 @@ namespace Numerics
 			}
 		},
 
-		{"Absolutes",
+		{"it can compute absolute values",
 			[](UnitTest::Examiner & examiner) {
 				// Using default 0...1 range:
 				examiner.check_equal(number(-10).absolute(), 10);
@@ -46,7 +60,7 @@ namespace Numerics
 			}
 		},
 
-		{"Truncation",
+		{"it can truncate to integers",
 			[](UnitTest::Examiner & examiner) {
 				auto n = number(10.1);
 
@@ -60,7 +74,7 @@ namespace Numerics
 			}
 		},
 
-		{"Modulo",
+		{"it can compute modulos",
 			[](UnitTest::Examiner & examiner) {
 				// Using default 0...1 range:
 				examiner.check_equal(number(10).modulo(4), 2);
@@ -75,7 +89,7 @@ namespace Numerics
 			}
 		},
 
-		{"Exponentiation",
+		{"it can compute exponents",
 			[](UnitTest::Examiner & examiner) {
 				examiner.check_equal(number(5).raise(3U), 125);
 				examiner.check_equal(number(-5).raise(3U), -125);
@@ -88,7 +102,7 @@ namespace Numerics
 			}
 		},
 
-		{"Angles",
+		{"it can generate angles",
 			[](UnitTest::Examiner & examiner) {
 				examiner.check_equal(90_deg, (90_deg).sin().asin());
 			}

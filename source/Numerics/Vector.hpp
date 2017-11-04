@@ -16,6 +16,11 @@
 
 namespace Numerics
 {
+	// Convenient/readable indexes for vectors.
+	enum {
+		X = 0, Y = 1, Z = 2, W = 3
+	};
+	
 	template <std::size_t D, typename NumericT = RealT>
 	class Vector : public std::array<NumericT, D>
 	{

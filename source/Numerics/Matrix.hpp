@@ -87,7 +87,7 @@ namespace Numerics
 
 		// Transform Constructors:
 		template <std::size_t N, typename AxisNumericT>
-		Matrix(const Translation<N, AxisNumericT> & translation) : Matrix(IDENTITY)
+		Matrix(const Transforms::Translation<N, AxisNumericT> & translation) : Matrix(IDENTITY)
 		{
 			for (std::size_t i = 0; i < std::min(R, N); i += 1) {
 				at(i, C-1) = translation.offset[i];
@@ -95,7 +95,7 @@ namespace Numerics
 		}
 
 		template <std::size_t N>
-		Matrix(const Scale<N, NumericT> & scale) : Matrix(IDENTITY)
+		Matrix(const Transforms::Scale<N, NumericT> & scale) : Matrix(IDENTITY)
 		{
 			for (std::size_t i = 0; i < N; i += 1) {
 				at(i, i) = scale.factor[i];
@@ -103,7 +103,7 @@ namespace Numerics
 		}
 
 		template <std::size_t K = 1, typename ScaleFactorT>
-		Matrix(const UniformScale<ScaleFactorT> & scale) : Matrix(IDENTITY)
+		Matrix(const Transforms::UniformScale<ScaleFactorT> & scale) : Matrix(IDENTITY)
 		{
 			for (std::size_t i = 0; i < std::min(R, C) - K; i += 1) {
 				at(i, i) = scale.factor;
@@ -111,7 +111,7 @@ namespace Numerics
 		}
 		
 		template <std::size_t N, typename AngleNumericT, typename AxisNumericT>
-		Matrix(const AngleAxisRotation<N, AngleNumericT, AxisNumericT> & rotation) : Matrix(IDENTITY) {
+		Matrix(const Transforms::AngleAxisRotation<N, AngleNumericT, AxisNumericT> & rotation) : Matrix(IDENTITY) {
 			static_assert(R == C && (R == 3 || R == 4), "Angle axis rotation is only valid for 3x3 or 4x4 matrices!");
 
 			if (!rotation.identity()) {
@@ -137,7 +137,7 @@ namespace Numerics
 		}
 
 		template <std::size_t N, typename AngleNumericT, typename AxisNumericT>
-		Matrix(const OffsetAngleAxisRotation<N, AngleNumericT, AxisNumericT> & offset_rotation) : Matrix(IDENTITY) {
+		Matrix(const Transforms::OffsetAngleAxisRotation<N, AngleNumericT, AxisNumericT> & offset_rotation) : Matrix(IDENTITY) {
 			if (offset_rotation.origin.equivalent(0)) {
 				(*this) = offset_rotation.rotation;
 			} else {
@@ -146,7 +146,7 @@ namespace Numerics
 		}
 
 		template <typename AxisNumericT>
-		Matrix(const FixedAxisRotation<X, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
+		Matrix(const Transforms::FixedAxisRotation<X, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
 			static_assert(R >= 3 && C >= 3, "Matrix must be size 3 or bigger!");
 
 			if (!fixed_rotation.identity()) {
@@ -161,7 +161,7 @@ namespace Numerics
 		}
 
 		template <typename AxisNumericT>
-		Matrix(const FixedAxisRotation<Y, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
+		Matrix(const Transforms::FixedAxisRotation<Y, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
 			static_assert(R >= 3 && C >= 3, "Matrix must be size 3 or bigger!");
 
 			if (!fixed_rotation.identity()) {
@@ -176,7 +176,7 @@ namespace Numerics
 		}
 
 		template <typename AxisNumericT>
-		Matrix(const FixedAxisRotation<Z, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
+		Matrix(const Transforms::FixedAxisRotation<Z, AxisNumericT> & fixed_rotation) : Matrix(IDENTITY) {
 			static_assert(R >= 2 && C >= 2, "Matrix must be size 2 or bigger!");
 
 			if (!fixed_rotation.identity()) {
@@ -191,9 +191,9 @@ namespace Numerics
 		}
 
 		template <typename A, typename B>
-		Matrix(const Transforms<A, B> & transforms) : Matrix(IDENTITY)
+		Matrix(const Transforms::Sequence<A, B> & sequence) : Matrix(IDENTITY)
 		{
-			transforms.apply(*this);
+			sequence.apply(*this);
 		}
 
 		// Getters and setters
@@ -265,7 +265,7 @@ namespace Numerics
 		}
 
 		template <typename RightT>
-		Transforms<Matrix, RightT> operator<< (const RightT & right) const
+		Transforms::Sequence<Matrix, RightT> operator<<(const RightT & right) const
 		{
 			return {*this, right};
 		}

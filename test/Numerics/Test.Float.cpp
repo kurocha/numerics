@@ -74,5 +74,28 @@ namespace Numerics
 				examiner.expect(equivalent(0.0, -0.0)) == true;
 			}
 		},
+		
+		{"it can be converted to integral",
+			[](UnitTest::Examiner & examiner) {
+				examiner.check_equal(FloatEquivalenceTraits<float>::convert_to_integer(0.0f), 0);
+				examiner.check_equal(FloatEquivalenceTraits<float>::convert_to_integer(-0.0f), 0);
+				examiner.check_equal(FloatEquivalenceTraits<double>::convert_to_integer(0.0), 0);
+				examiner.check_equal(FloatEquivalenceTraits<double>::convert_to_integer(-0.0), 0);
+
+				examiner.check(FloatEquivalenceTraits<float>::equivalent(0.0f, -4.37114e-08f));
+
+				typedef FloatEquivalenceTraits<float> F;
+
+				// Convert an integer to a float and then back again - this process should be non-lossy.
+				auto integer_value = F::convert_to_integer(1.5f);
+				auto float_value = F::convert_to_float(integer_value);
+
+				examiner.check_equal(1.5f, float_value);
+
+				// cos(R90) should normally be considered zero:
+				examiner << "cos(R90) is zero = " << R90.cos() << std::endl;
+				examiner.expect(R90.cos()).to(be_equivalent(0.0));
+			}
+		},
 	};
 }
