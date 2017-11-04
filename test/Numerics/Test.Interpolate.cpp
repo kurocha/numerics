@@ -17,7 +17,7 @@ namespace Numerics
 		UnitTest::Suite InterpolateTestSuite {
 			"Numerics::Interpolate",
 			
-			{"Linear Interpolation",
+			{"it can interpolate values using linear interpolation",
 				[](UnitTest::Examiner & examiner) {
 					examiner.expect(linear(0.75, -10.0, 10.0)) == 5.0;
 					examiner.expect(linear(-1.0, -10.0, 10.0)) == -30.0;
@@ -27,7 +27,7 @@ namespace Numerics
 				}
 			},
 			
-			{"Cosine Interpolation",
+			{"it can interpolate values using cosine interpolation",
 				[](UnitTest::Examiner & examiner) {
 					examiner.expect(cosine(0.0, -10.0, 10.0)) == -10.0;
 					examiner.expect(cosine(1.0, -10.0, 10.0)) == 10.0;

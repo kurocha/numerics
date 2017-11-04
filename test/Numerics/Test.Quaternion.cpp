@@ -12,8 +12,6 @@
 #include <Numerics/Matrix.hpp>
 #include <Numerics/Transforms.hpp>
 
-#include <iomanip>
-
 namespace Numerics
 {
 	using namespace UnitTest::Expectations;
@@ -81,7 +79,7 @@ namespace Numerics
 			}
 		},
 
-		{"Rotation Matrix",
+		{"it can generate rotation matricies",
 			[](UnitTest::Examiner & examiner) {
 				Quaternion<> identity(IDENTITY);
 				Matrix<4,4> m1 = identity;
@@ -105,7 +103,7 @@ namespace Numerics
 			}
 		},
 		
-		{"Transforms",
+		{"inverse transforms cancel out",
 			[](UnitTest::Examiner & examiner) {
 				Quaternion<> q1 = rotate(90_deg, Vec3(1, 0, 0));
 
