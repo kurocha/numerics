@@ -83,6 +83,11 @@ namespace Numerics
 			return Vector(*this) -= other;
 		}
 		
+		Vector operator-() const noexcept
+		{
+			return Vector(*this).fold([](auto & a){return -a;});
+		}
+		
 		template <typename OtherT>
 		Vector & operator*=(const OtherT & other)
 		{
