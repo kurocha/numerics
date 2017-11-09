@@ -141,7 +141,7 @@ namespace Numerics
 			if (offset_rotation.origin.equivalent(0)) {
 				(*this) = offset_rotation.rotation;
 			} else {
-				(*this) = translate(-offset_rotation.origin) << offset_rotation.rotation << translate(offset_rotation.origin);
+				(*this) = Transforms::translate(-offset_rotation.origin) << offset_rotation.rotation << Transforms::translate(offset_rotation.origin);
 			}
 		}
 
@@ -271,8 +271,11 @@ namespace Numerics
 		}
 	};
 	
+	using Mat44 = Matrix<4, 4>;
+	
 	extern template class Matrix<4, 4, float>;
 	extern template class Matrix<4, 4, double>;
 }
 
 #include "Matrix/Multiply.hpp"
+#include "Matrix/Inverse.hpp"
