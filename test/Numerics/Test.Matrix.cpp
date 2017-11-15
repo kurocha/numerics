@@ -222,7 +222,7 @@ namespace Numerics
 				};
 
 				Matrix<2, 17> A;
-				Vec2 total;
+				Vec2 total{0, 0};
 				for (auto point : points) {
 					total += point;
 				}
