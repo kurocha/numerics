@@ -1,6 +1,6 @@
 # Teapot v2.2.0 configuration generated at 2017-10-19 11:13:29 +1300
 
-required_version "2.0"
+required_version "3.0"
 
 # Project Metadata
 
@@ -23,38 +23,29 @@ end
 # Build Targets
 
 define_target 'numerics-library' do |target|
-	target.build do
-		source_root = target.package.path + 'source'
-		copy headers: source_root.glob('Numerics/**/*.{h,hpp}')
-		build static_library: 'Numerics', source_files: source_root.glob('Numerics/**/*.cpp')
-	end
-	
-	target.depends 'Build/Files'
-	target.depends 'Build/Clang'
-	
-	target.depends :platform
 	target.depends 'Language/C++14', private: true
 	
 	target.provides 'Library/Numerics' do
-		append linkflags [
-			->{install_prefix + 'lib/libNumerics.a'},
-		]
+		source_root = target.package.path + 'source'
+		
+		library_path = build static_library: 'Numerics', source_files: source_root.glob('Numerics/**/*.cpp')
+		
+		append linkflags library_path
+		append header_search_paths source_root
 	end
 end
 
 define_target 'numerics-test' do |target|
-	target.build do |*arguments|
-		test_root = target.package.path + 'test'
-		
-		run tests: 'Numerics', source_files: test_root.glob('Numerics/**/*.cpp'), arguments: arguments
-	end
-	
-	target.depends 'Language/C++14', private: true
+	target.depends 'Language/C++14'
 	
 	target.depends 'Library/UnitTest'
 	target.depends 'Library/Numerics'
 	
-	target.provides 'Test/Numerics'
+	target.provides 'Test/Numerics' do |*arguments|
+		test_root = target.package.path + 'test'
+		
+		run tests: 'Numerics', source_files: test_root.glob('Numerics/**/*.cpp'), arguments: arguments
+	end
 end
 
 define_target 'numerics-executable' do |target|
