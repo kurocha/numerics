@@ -44,34 +44,8 @@ define_target 'numerics-test' do |target|
 	target.provides 'Test/Numerics' do |*arguments|
 		test_root = target.package.path + 'test'
 		
-		run tests: 'Numerics', source_files: test_root.glob('Numerics/**/*.cpp'), arguments: arguments
+		run source_files: test_root.glob('Numerics/**/*.cpp'), arguments: arguments
 	end
-end
-
-define_target 'numerics-executable' do |target|
-	target.build do
-		source_root = target.package.path + 'source'
-		
-		build executable: 'Numerics', source_files: source_root.glob('Numerics.cpp')
-	end
-	
-	target.depends 'Build/Files'
-	target.depends 'Build/Clang'
-	
-	target.depends :platform
-	target.depends 'Language/C++14', private: true
-	
-	target.depends 'Library/Numerics'
-	target.provides 'Executable/Numerics'
-end
-
-define_target 'numerics-run' do |target|
-	target.build do |*arguments|
-		run executable: 'Numerics', arguments: arguments
-	end
-	
-	target.depends 'Executable/Numerics'
-	target.provides 'Run/Numerics'
 end
 
 # Configurations
