@@ -22,6 +22,10 @@ namespace Numerics
 		X = 0, Y = 1, Z = 2, W = 3
 	};
 	
+	enum {
+		WIDTH = 0, HEIGHT = 1, DEPTH = 2,
+	};
+	
 	template <std::size_t D, typename NumericT = RealT>
 	class Vector : public std::array<NumericT, D>
 	{
