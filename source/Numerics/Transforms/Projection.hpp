@@ -26,7 +26,7 @@ namespace Numerics
 		template <typename NumericT>
 		struct PerspectiveProjection
 		{
-			Radians<NumericT> & field_of_view;
+			Radians<NumericT> field_of_view;
 			NumericT aspect_ratio;
 			NumericT near, far;
 			

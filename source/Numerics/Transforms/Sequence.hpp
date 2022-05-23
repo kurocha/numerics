@@ -17,7 +17,7 @@ namespace Numerics
 		{
 			LeftT left;
 			RightT right;
-
+			
 		protected:
 			template <typename ApplyT, typename TransformT>
 			void apply(ApplyT & to, const TransformT & transform) const
@@ -25,14 +25,14 @@ namespace Numerics
 				//if (!transform.identity())
 				to *= ApplyT(transform);
 			}
-
+			
 			template <typename ApplyT, typename A, typename B>
 			void apply(ApplyT & to, const Sequence<A, B> & sequence) const
 			{
 				apply(to, sequence.left);
 				apply(to, sequence.right);
 			}
-
+			
 		public:
 			template <typename ApplyT>
 			void apply(ApplyT & to) const
@@ -40,9 +40,9 @@ namespace Numerics
 				apply(to, *this);
 			}
 		};
-
+		
 		template <typename A, typename B, typename RightT>
-		Sequence<Sequence<A, B>, RightT> operator<<(Sequence<A, B> && sequence, RightT && right)
+		Sequence<Sequence<A, B>, RightT> operator<<(Sequence<A, B> sequence, RightT && right)
 		{
 			return {sequence, right};
 		}
