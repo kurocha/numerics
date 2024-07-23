@@ -141,11 +141,11 @@ namespace Numerics
 		return Radians<FloatT>{std::asin(value)};
 	}
 
-	constexpr Radians<double> operator"" _rad(long double r) { return Radians<double>{r}; }
-	constexpr Radians<double> operator"" _deg(long double d) { return Radians<double>{d * D2R}; }
+	constexpr Radians<double> operator"" _rad(long double r) { return Radians<double>{static_cast<double>(r)}; }
+	constexpr Radians<double> operator"" _deg(long double d) { return Radians<double>{static_cast<double>(d * D2R)}; }
 	
-	constexpr Radians<double> operator"" _rad(unsigned long long r) { return Radians<double>{r}; }
-	constexpr Radians<double> operator"" _deg(unsigned long long d) { return Radians<double>{static_cast<long double>(d) * D2R}; }
+	constexpr Radians<double> operator"" _rad(unsigned long long r) { return Radians<double>{static_cast<double>(r)}; }
+	constexpr Radians<double> operator"" _deg(unsigned long long d) { return Radians<double>{static_cast<double>(d * D2R)}; }
 	
 	extern template struct Radians<float>;
 	extern template struct Radians<double>;
