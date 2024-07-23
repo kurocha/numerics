@@ -48,7 +48,7 @@ namespace Numerics
 
 		template <typename OtherT>
 		constexpr Radians operator* (const OtherT & other) const {
-			return Radians{value * other};
+			return Radians{static_cast<FloatT>(value * other)};
 		}
 
 		constexpr Radians operator/ (const Radians & other) const {
@@ -57,7 +57,7 @@ namespace Numerics
 
 		template <typename OtherT>
 		constexpr Radians operator/ (const OtherT & other) const {
-			return Radians{value / other};
+			return Radians{static_cast<FloatT>(value / other)};
 		}
 
 		constexpr Radians operator- () const {
