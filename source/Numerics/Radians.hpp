@@ -120,7 +120,7 @@ namespace Numerics
 
 	template <typename FloatT>
 	constexpr Radians<FloatT> degrees(const FloatT & value) {
-		return Radians<FloatT>{value * D2R};
+		return Radians<FloatT>{static_cast<FloatT>(value * D2R)};
 	}
 
 	template <typename FloatT>
